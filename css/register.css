@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Paytone+One');
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+@import url('https://fonts.googleapis.com/css?family=Roboto:500');
+
+
+body{
+  font-family: 'Roboto' Serif;
+  font-size: 200%;
+  background-color: #f4f8ff;
+}
+.centered_container{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 3%;
+	padding: 2% 5%;	
+	background-color: #fffdf2;
+}
+
+#submit{
+  padding: 0.5% 1%;
+  font-size: 105%;
+  border-radius: 4px;
+  background-color: #e02f2f;
+  color: white;
+  border: solid #e02f2f;
+  margin-left: 35%;
+}
+
+#submit:hover{
+  background-color: #e21818;
+  border: solid #e02f2f;
+}
+
+#tabs{
+	text-align: center;	
+}
+
+#tabs .col:nth-child(2){
+	font-family: sans-serif;border-style: solid; border-width: 1px; border-bottom-style: none; 
+}
+
+#tabs .col:nth-child(1) a{
+	color: #bab9b4; text-decoration: none;
+}
+
+@media only screen and (min-width: 1024px){
+	body{
+		font-size: 120%;
+		font-family: 'Roboto';
+	}
+
+	#submit{
+	  padding: 1% 1%;
+	  font-size: 105%;
+	  border-radius: 4px;
+	  background-color: #e02f2f;
+	  color: white;
+	  border: solid #e02f2f;
+	  margin-left: 40%;
+	}
+
+	#submit:hover{
+	  background-color: #e21818;
+	  border: solid #e02f2f;
+	}
+
+}
