@@ -135,9 +135,7 @@ if (isset($_POST['signin'])) {
   $name = mysqli_real_escape_string($conn, $_POST['name']);
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $pass = mysqli_real_escape_string($conn, $_POST['password']);
-  $pass2 = mysqli_real_escape_string($conn, $_POST['confirm']);
 
-  if ($pass == $pass2) {
     # code...
     $pass = md5($pass); //hashing 
     $sql = "INSERT INTO users (username, emailid, password) VALUES (?, ? ,?)"; //do not miss the inverted commas of VALUE
@@ -151,10 +149,6 @@ if (isset($_POST['signin'])) {
     mysqli_stmt_close($stmt);
     //$_SESSION['username'] = $name;
     //header("location: home.php")
-  }
-  else{
-    $_SESSION['message'] = "passwords didnt match"; 
-  }
   //mysql_real_escape_string(unescaped_string)
 }
 ?>
@@ -168,18 +162,21 @@ if (isset($_POST['signin'])) {
   <div id="signup">
     <h3>Register</h3><br>
     <form name="login" onsubmit="return validateForm()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-      Name <input type="text" name="name" maxlength="10" required="hello"> <span id="names"></span><br>
+      Name <input type="text" name="name" maxlength="10" required> <span id="names"></span><br>
       Email <input type="email" name="email" id="email" required> <span id="emails"></span><br>
       Confirm Email <input type="email" name="conemail" id="conemail" required> <span id="emailsc"></span><br>
-      Password <input type="password" name="password" minlength="8" maxlength="16" id="pass" required> <span></span><br>
-      Confirm Password <input type="password" name="confirm" minlength="8" maxlength="16" id="conpass" required> <span></span><br>
+      Password <input type="password" name="password" minlength="8" maxlength="16" id="pass" required> <span id="passc"></span><br>
+      Confirm Password <input type="password" name="confirm" minlength="8" maxlength="16" id="conpass" required> <span id="passcn"></span><br>
       <input type="submit" name="signin">
     </form>
   </div>
   <script type="text/javascript">
     function validateForm(){
+
+      // name validation
       var name = document.forms['login']['name'].value;
       var c = 0;
+      var nameFlag = 0;
       for (var i = name.length - 1; i >= 0; i--) {
         if(name[i] == ' ')
           c += 1;
@@ -187,25 +184,47 @@ if (isset($_POST['signin'])) {
       if (c>2) {
         document.getElementById('names').innerHTML = 'More than 2 spaces are not allowed';
       }
+      else {
+        nameFlag = 1;
+      }
 
+      // email validation
       var email = document.forms['login']['email'].value;
       var conemail = document.forms['login']['conemail'].value;
+      var emailFlag = 0;
       if (email == conemail) {
         if (email.includes("@samex")) {
-          return true;  
+          emailFlag = 1;  
         }
         else{
-          document.getElementById('emails').innerHTML = "Email must have @samex"
+          document.getElementById('emails').innerHTML = "Email must have @samex";
         }
       }
       else {
-        document.getElementById('emaisc').innerHTML = "Email id did not match"
+        document.getElementById('emailsc').innerHTML = "Email id did not match";
       }
 
+      // password validation
       var password = document.forms['login']['password'].value;
       var confirm = document.forms['login']['confirm'].value;
+      var regex = /(?=.*?[A-Z])(?=.*?[0-9]){2,}.*\$$/g;
+      var passwordFlag = 0;
+      if (password.match(regex)) {
+        if (password == confirm) {
+          passwordFlag = 1;
+        }
+        else{
+          document.getElementById('passcn').innerHTML = "Password not matching";
+        }
+      }
+      else {
+        document.getElementById('passc').innerHTML = "Does not staisfy the password condition(One upper case, 2 numbers and $ at the end of password must be used)";
+      }
 
-
+      // return 
+      if (!(nameFlag && emailFlag && passwordFlag)) {
+        return false;
+      }
     }
   </script>
 </body>
