@@ -19,32 +19,26 @@ if (!$conn) {
 $name_err = $username_err =  "";
 
 function insert($name, $email, $pass){
-    $pass = md5($pass); //hashing 
-    $sql = "INSERT INTO users (username, email, password) VALUES (?,?,?)"; 
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-      mysqli_stmt_bind_param($stmt, 'sss', $name,  $email, $pass);
+    $sql = "INSERT INTO users (username, emailid, password) VALUES (?, ? ,?)"; 
+    if ($stmt = mysqli_prepare($GLOBALS['conn'], $sql)) {
+      mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $pass);
       mysqli_stmt_execute($stmt);
-      $_SESSION['logged_in'] = "active";
-      $_SESSION['email'] = $email;
-      $_SESSION['username'] = $name;
-      return true;
+      echo "<script type = \"text/javascript\">alert('You are now registered');</script>";
     }
-    else{
-      return false;
-    }
-                
+    $_SESSION['message'] = "u r logged in";
+    mysqli_stmt_close($stmt);               
 }
 
 function retrieve($email){
 
-  $email_query = "SELECT * FROM users WHERE email = ?";
+  $email_query = "SELECT * FROM users WHERE emailid = ?";
 
-  if ($emailstmt = mysqli_prepare($conn, $email_query)) {
+  if ($emailstmt = mysqli_prepare($GLOBALS['conn'], $email_query)) {
     mysqli_stmt_bind_param($emailstmt, 's', $email);
     mysqli_stmt_execute($emailstmt);
     $email_result = mysqli_stmt_get_result($emailstmt);
     $emailrow = mysqli_fetch_array($email_result, MYSQLI_BOTH);
-    if ($emailrow['email'] == $email) {
+    if ($emailrow['emailid'] == $email) {
       return true;     
     }
     else{
@@ -130,26 +124,19 @@ function retrieve($email){
 // }
 
 if (isset($_POST['signin'])) {
-  # code...
-  //session_start();
   $name = mysqli_real_escape_string($conn, $_POST['name']);
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $pass = mysqli_real_escape_string($conn, $_POST['password']);
-
-    # code...
     $pass = md5($pass); //hashing 
-    $sql = "INSERT INTO users (username, emailid, password) VALUES (?, ? ,?)"; //do not miss the inverted commas of VALUE
-    //mysqli_query($conn, $sql);
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-      # code...
-      mysqli_stmt_bind_param($stmt, 'sss', $name, $email, $pass);
-      mysqli_stmt_execute($stmt);
+
+    $res = retrieve($email);
+    if ($res) {
+      echo "<script type = \"text/javascript\">alert('Email Id already registered');</script>";
     }
-    $_SESSION['message'] = "u r logged in";
-    mysqli_stmt_close($stmt);
-    //$_SESSION['username'] = $name;
-    //header("location: home.php")
-  //mysql_real_escape_string(unescaped_string)
+    else{
+      insert($name, $email, $pass);
+    }
+    
 }
 ?>
 
@@ -165,8 +152,8 @@ if (isset($_POST['signin'])) {
       Name <input type="text" name="name" maxlength="10" required> <span id="names"></span><br>
       Email <input type="email" name="email" id="email" required> <span id="emails"></span><br>
       Confirm Email <input type="email" name="conemail" id="conemail" required> <span id="emailsc"></span><br>
-      Password <input type="password" name="password" minlength="8" maxlength="16" id="pass" required> <span id="passc"></span><br>
-      Confirm Password <input type="password" name="confirm" minlength="8" maxlength="16" id="conpass" required> <span id="passcn"></span><br>
+      Password <input type="password" name="password" minlength="2" maxlength="16" id="pass" required> <span id="passc"></span><br>
+      Confirm Password <input type="password" name="confirm" minlength="2" maxlength="16" id="conpass" required> <span id="passcn"></span><br>
       <input type="submit" name="signin">
     </form>
   </div>
