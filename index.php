@@ -62,6 +62,41 @@ if (isset($_POST['signin'])) {
     }
 }
 
+function retrieveLogIn($email, $pass){
+  $sql = "SELECT * FROM users WHERE emailid = ? and password = ?";
+
+  if ($stmt = mysqli_prepare($GLOBALS['conn'], $sql)) {
+    # code...
+    mysqli_stmt_bind_param($stmt, 'ss', $email, $pass );
+    
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_array($result, MYSQLI_BOTH);
+    if ($row['emailid'] == $email && $row['password'] == $pass) {
+      # code...
+      return true;
+    }
+    else{
+      return false;
+    }
+      
+      }
+}
+
+if (isset($_POST['login'])) {
+  $email = mysqli_real_escape_string($conn, $_POST['emaillog']);
+  $pass = mysqli_real_escape_string($conn, $_POST['passwordlog']);
+  $pass = md5($pass); //hashing 
+
+    $res = retrieveLogIn($email, $pass);
+    if ($res) {
+      echo "<script type = \"text/javascript\">alert('Log In successful');</script>";
+    }
+    else{
+      echo "<script type = \"text/javascript\">alert('Log In unsuccessful');</script>";
+    }
+}
 
 ?>
 
@@ -79,10 +114,19 @@ if (isset($_POST['signin'])) {
       Confirm Email <input type="email" name="conemail" id="conemail" required> <span id="emailsc"></span><br>
       Password <input type="password" name="password" minlength="2" maxlength="16" id="pass" required> <span id="passc"></span><br>
       Confirm Password <input type="password" name="confirm" minlength="2" maxlength="16" id="conpass" required> <span id="passcn"></span><br>
-      <input type="submit" name="signin">
+      <input type="submit" name="signin" value="SignUp">
+    </form>
+  </div><br><br>
+   <div id="login">
+    <h3>Log In</h3><br>
+    <form name="logIn" onsubmit="return validateFormLog()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+      Email <input type="email" name="emaillog" required> <span id="emaillg"></span><br>
+      Password <input type="password" name="passwordlog" minlength="2" maxlength="16" required> <span id="passlg"></span><br>
+      <input type="submit" name="login" value="log In">
     </form>
   </div>
   <script type="text/javascript">
+   
     function validateForm(){
 
       // name validation
