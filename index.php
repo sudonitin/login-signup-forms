@@ -104,10 +104,12 @@ if (isset($_POST['login'])) {
 <html>
 <head>
   <title>Samex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Roboto:500');
     body{
@@ -120,6 +122,7 @@ if (isset($_POST['login'])) {
       background-color: transparent;
       border-width: thin;
       border-color: white;
+      width: 35%;
     }
     span{
       color: white;
@@ -134,11 +137,19 @@ if (isset($_POST['login'])) {
       text-decoration-color: white;
       color: #03fcfa;
     }
+    @media only screen and (max-width: 600px) {
+      .card{
+        background-color: transparent;
+        border-width: thin;
+        border-color: white;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container"><br>
-    <div class="card" style="width: 23rem;" id="signup">
+    <div class="card" id="signup">
       <form class="card-body" name="login" onsubmit="return validateForm()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
         <h3 class="card-title">Register</h3>
         <div class="card-text">
@@ -167,7 +178,7 @@ if (isset($_POST['login'])) {
         <small class="form-text text-muted swap"><a href="#" onclick="swap('login')">Already registered?</a></small>
       </form>
     </div><br><br>
-     <div class="card" style="width: 23rem; display: none;" id="login">
+     <div class="card" style="display: none;" id="login">
       <form method="post" class="card-body" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
         <h3 class="card-title">Log In</h3>
         <div class="form-group">
@@ -187,12 +198,20 @@ if (isset($_POST['login'])) {
   <script type="text/javascript">
     function swap(id){
       if (id == 'login') {
-        document.getElementById('signup').style.display = "none";
-        document.getElementById('login').style.display = "block";
+        jQuery(function($) {
+          $('#signup').slideUp(2000);
+          $('#login').slideDown(2000).css("display","block");
+        });
+        // document.getElementById('signup').style.display = "none";
+        // document.getElementById('login').style.display = "block";
       }
       else{
-        document.getElementById('signup').style.display = "block";
-        document.getElementById('login').style.display = "none";
+        jQuery(function($) {
+          $('#login').slideUp(2000);
+          $('#signup').slideDown(2000).css("display","block");
+        });
+        // document.getElementById('signup').style.display = "block";
+        // document.getElementById('login').style.display = "none";
       }
     }
    
