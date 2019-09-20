@@ -104,37 +104,106 @@ if (isset($_POST['login'])) {
 <html>
 <head>
   <title>Samex</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=Roboto:500');
+    body{
+      background-image: linear-gradient(90deg,#db004d 0, #94103e);
+      font-family: Roboto;
+      color: white;
+      font-size: 100%;
+    }
+    .card{
+      background-color: transparent;
+      border-width: thin;
+      border-color: white;
+    }
+    span{
+      color: white;
+      font-style: italic;
+    }
+    small a{
+      color: white;
+    }
+    small a:hover{
+      text-decoration-line: underline;
+      text-decoration-style: solid;
+      text-decoration-color: white;
+      color: #03fcfa;
+    }
+  </style>
 </head>
 <body>
-  <div id="signup">
-    <h3>Register</h3><br>
-    <form name="login" onsubmit="return validateForm()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-      Name <input type="text" name="name" maxlength="10" required> <span id="names"></span><br>
-      Email <input type="email" name="email" id="email" required> <span id="emails"></span><br>
-      Confirm Email <input type="email" name="conemail" id="conemail" required> <span id="emailsc"></span><br>
-      Password <input type="password" name="password" minlength="2" maxlength="16" id="pass" required> <span id="passc"></span><br>
-      Confirm Password <input type="password" name="confirm" minlength="2" maxlength="16" id="conpass" required> <span id="passcn"></span><br>
-      <input type="submit" name="signin" value="SignUp">
-    </form>
-  </div><br><br>
-   <div id="login">
-    <h3>Log In</h3><br>
-    <form name="logIn" onsubmit="return validateFormLog()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-      Email <input type="email" name="emaillog" required> <span id="emaillg"></span><br>
-      Password <input type="password" name="passwordlog" minlength="2" maxlength="16" required> <span id="passlg"></span><br>
-      <input type="submit" name="login" value="log In">
-    </form>
+  <div class="container"><br>
+    <div class="card" style="width: 23rem;" id="signup">
+      <form class="card-body" name="login" onsubmit="return validateForm()" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+        <h3 class="card-title">Register</h3>
+        <div class="card-text">
+          <div class="form-group">
+            <label for="Name">Name</label> 
+            <input type="text" class="form-control" id="Name" name="name" maxlength="10" required><small class="form-text text-muted"><span id="names"></span></small>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label> 
+            <input type="email" class="form-control" name="email" id="email" required><small class="form-text text-muted"><span id="emails"></span></small>
+          </div>
+          <div class="form-group">
+            <label for="conemail">Confirm Email</label> 
+            <input type="email" class="form-control" name="conemail" id="conemail" required><small class="form-text text-muted"><span id="emailsc"></span></small>
+          </div>
+          <div class="form-group">
+            <label for="pass">Password</label> 
+            <input type="password" class="form-control" name="password" minlength="2" maxlength="16" id="pass" required><small class="form-text text-muted"><span id="passc"></span></small>
+          </div>
+          <div class="form-group">
+            <label for="conpass">Confirm Password</label>
+            <input type="password" class="form-control" name="confirm" minlength="2" maxlength="16" id="conpass" required><small class="form-text text-muted"><span id="passcn"></span></small>
+          </div>
+        </div>
+        <input type="submit" class="btn btn-outline-primary" name="signin" value="SignUp">
+        <small class="form-text text-muted swap"><a href="#" onclick="swap('login')">Already registered?</a></small>
+      </form>
+    </div><br><br>
+     <div class="card" style="width: 23rem; display: none;" id="login">
+      <form method="post" class="card-body" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+        <h3 class="card-title">Log In</h3>
+        <div class="form-group">
+          <label for="emaillog">Email</label> 
+          <input type="email" class="form-control" name="emaillog" id="emaillog" required> <small class="form-text text-muted"><span id="emaillg"></span></small>
+        </div>
+        <div class="form-group">
+          <label for="passwordlog">Password</label> 
+          <input type="password" class="form-control" name="passwordlog" id="passwordlog" minlength="2" maxlength="16" required> <small class="form-text text-muted"><span id="passlg"></span></small><br>
+        </div>
+        <input type="submit" class="btn btn-outline-success" name="login" value="log In">
+        <small class="form-text text-muted swap"><a href="#" onclick="swap('signup')">Not Registered?</a></small>
+      </form>
+    </div>
   </div>
+  
   <script type="text/javascript">
+    function swap(id){
+      if (id == 'login') {
+        document.getElementById('signup').style.display = "none";
+        document.getElementById('login').style.display = "block";
+      }
+      else{
+        document.getElementById('signup').style.display = "block";
+        document.getElementById('login').style.display = "none";
+      }
+    }
    
     function validateForm(){
 
       // name validation
       var name = document.forms['login']['name'].value;
       var c = 0;
-      var nameRegex = /([a-zA-z ]+)/g;
+      var nameRegex = /.*(?=.*?[0-9]).*/g;
       var nameFlag = 0;
-      if(name.match(nameRegex)){
+      if(!name.match(nameRegex)){
         for (var i = name.length - 1; i >= 0; i--) {
         if(name[i] == ' ')
             c += 1;
@@ -144,6 +213,7 @@ if (isset($_POST['login'])) {
         }
         else {
           nameFlag = 1;
+          document.getElementById('names').innerHTML = '';
         }
       }
       else{
@@ -158,6 +228,7 @@ if (isset($_POST['login'])) {
       if (email == conemail) {
         if (email.includes("@samex")) {
           emailFlag = 1;  
+          document.getElementById('emailsc').innerHTML = "";
         }
         else{
           document.getElementById('emails').innerHTML = "Email must have @samex";
@@ -175,6 +246,7 @@ if (isset($_POST['login'])) {
       if (password.match(regex)) {
         if (password == confirm) {
           passwordFlag = 1;
+          document.getElementById('passcn').innerHTML = "";
         }
         else{
           document.getElementById('passcn').innerHTML = "Password not matching";
