@@ -30,11 +30,15 @@
             background-color: transparent;
             border-width: thin;
             border-color: white;
-            width: 50%;
+            max-width: 50%;
             margin-left: auto;
             margin-right: auto;
+            /* text-overflow: ; */
+            word-wrap: break-word !important;
         }
-
+        .card > p {
+            word-wrap: break-word !important;
+        }
         span {
             color: white;
             font-style: italic;
@@ -51,12 +55,12 @@
             color: #03fcfa;
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 700px) {
             .card {
                 background-color: transparent;
                 border-width: thin;
                 border-color: white;
-                width: 100%;
+                min-width: 100%;
             }
         }
     </style>
@@ -96,7 +100,7 @@
         <div class="card" id="login">
             <form method="post" class="card-body">
                 <h3 class="card-title">Your Output: </h3>
-                <label id="target" for="email">UTM Source</label>
+                <p id="target">UTM Source</p>
             </form>
         </div>
     </div>
